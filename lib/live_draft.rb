@@ -1,0 +1,3 @@
+module LiveDraft
+  # Your code goes here...
+end
