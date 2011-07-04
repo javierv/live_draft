@@ -1,0 +1,66 @@
+= Live Draft
+
+Easily specify which method to use to display an object. It was created to work in Rails models, though it works with any Ruby class.
+
+This gem is in an early stage of development, so it might not be as configurable as you'd hope. However, it has already been used in production environments with the default settings.
+
+== Motivation
+
+Most CMS let you write articles and have two buttons: "save draft" and "publish". However, once an article is published, it's impossible to change it and save the changes as a draft while at the same time keeping the published version.
+
+Keeping both versions might allow you to implement an "autosave draft" feature while editing an article, so the user doesn't lose any changes if something goes wrong with the browser.
+
+I've only seen one gem providing this behaviour, called has_draft. However, it requires two tables with the same structure: one for the published version and one for the draft. This gem tries to implement the same idea, but it avoids duplication but using just one table.
+
+== Install
+
+In your Gemfile:
+
+    gem "live_draft"
+
+Ruby 1.9, Rails 3 and active record are required.
+
+== Usage
+
+First of all, you need to add a column to your table to establish the relation between a draft and its page:
+
+    class AddPublishedToArticle < ActiveRecord::Migration
+      def self.up
+        add_column :articles, :draft, :boolean
+        add_column :articles, :published_id, :integer
+      end
+    
+      def self.down
+        remove_column :articles, :draft
+	remove_column :articles, :published_id
+      end
+    end
+
+Then you have to declare it in your model:
+
+    class Article < ActiveRecord::Base
+      has_live_draft
+    end
+
+And you can use the methods provided by the gem:
+
+    article = Article.create(:title => "My original title")
+    article.title = "My new title"
+    article.has_draft?
+    article.save_draft
+    article.has_draft?
+    article.title
+    article.draft.title
+    article.draft.publish
+    article.has_draft?
+    article.title
+
+== TODO
+
+* Add generators for migrations.
+* Make it ORM agnostic.
+* Compatibility with more table configurations (not only a boolean column).
+
+== Copyright
+
+Copyright (c) 2011 Javier Martín. See LICENSE for details.
