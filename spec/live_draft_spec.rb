@@ -1,8 +1,8 @@
 # encoding: utf-8
 
-define_match :have_draft do |actual|
-  actual.has_draft?
-end
+RSpec::Matchers.define :have_draft do |expected| 
+  match { |actual| actual.has_draft? } 
+end 
 
 describe "Drafts" do
   context "Creating a new record" do
@@ -73,7 +73,7 @@ describe "Drafts" do
 
           specify { post.should have_draft }
           specify { @result.should == false }
-          specify { draft.should have(1).error_on(:title)
+          specify { draft.should have(1).error_on(:title) }
         end
 
         context "publishing a draft with given attributes" do
