@@ -4,6 +4,9 @@ Easily specify which method to use to display an object. It was created to work 
 
 This gem is in an early stage of development, so it might not be as configurable as you'd hope. However, it has already been used in production environments with the default settings.
 
+
+**Important note: THIS GEM ISN'T READY FOR PRODUCTION!**
+
 == Motivation
 
 Most CMS let you write articles and have two buttons: "save draft" and "publish". However, once an article is published, it's impossible to change it and save the changes as a draft while at the same time keeping the published version.
